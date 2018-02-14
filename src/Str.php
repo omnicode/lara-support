@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraSupport;
 
 use Illuminate\Support\Str as BaseStr;
@@ -32,43 +33,50 @@ class Str extends BaseStr
      * @param $subject
      * @param $search
      * @param int $occurrence
+     * @param $caseSensitive
      * @return bool|string
      */
-    public static function after($subject, $search, $occurrence = 1)
+    public static function after($subject, $search, $occurrence = 1, $caseSensitive = true)
     {
         if ($search == '') {
             return $subject;
         }
 
-        $pos = strrpos($subject, $search);
+        $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
 
-        if ($pos === false) {
-            return $subject;
+        if ($occurrence == self::LAST) {
+            $occurrence = getLastKey($positions);
         }
 
-        return substr($subject, $pos + strlen($search));
+
+        if (empty($positions[$occurrence])) {
+            return false;
+        }
+
+        return substr($subject, $positions[$occurrence] + strlen($search));
     }
 
     /**
      * @param $subject
      * @param $search
      * @param string $occurrence
+     * @param bool $caseSensitive
      * @return bool|string
      */
-    public static function before($subject, $search, $occurrence = self::LAST)
+    public static function before($subject, $search, $occurrence = self::LAST, $caseSensitive = true)
     {
         if ($search == '') {
             return $subject;
         }
 
-        $positions = static::positions($subject, $search);
+        $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
 
         if ($occurrence == self::LAST) {
             $occurrence = getLastKey($positions);
         }
 
         if (empty($positions[$occurrence])) {
-            return $subject;
+            return false;
         }
 
         return substr($subject, 0, $positions[$occurrence]);
@@ -78,11 +86,11 @@ class Str extends BaseStr
      * @param $subject
      * @param $searchStart
      * @param $searchEnd
-     * @param int $occurentcStart
+     * @param int $occurentceStart
      * @param string $occurenceEnd
      * @return bool|string
      */
-    public static function between($subject, $searchStart, $searchEnd, $occurentcStart = 1, $occurenceEnd = self::LAST)
+    public static function between($subject, $searchStart, $searchEnd, $occurentceStart = 1, $occurenceEnd = self::LAST)
     {
         if ($searchStart == '' || $searchEnd == '') {
             return $subject;
