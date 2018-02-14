@@ -38,7 +38,7 @@ class LaraServiceProvider extends ServiceProvider
         $this->loadViewsFrom($viewPath, $path);
 
         if ($isPublish) {
-            $viewVendorPath = $this->getVendorViewPath($path);
+            $viewVendorPath = $this->getViewVendorPath($path);
             $this->publishes([
                 $path => $viewVendorPath,
             ]);
@@ -49,7 +49,7 @@ class LaraServiceProvider extends ServiceProvider
      * @param $rootPath
      * @param string $path
      */
-    protected function loadRoutes ($rootPath, $path = '')
+    protected function loadRoutes ($rootPath, $path = 'routes.php')
     {
         $this->loadRoutesFrom($this->getRoutePath($rootPath, $path));
     }
@@ -150,34 +150,18 @@ class LaraServiceProvider extends ServiceProvider
      * @param $rootPath
      * @param string $path
      */
-    protected function registerFunctions($rootPath, $path = '')
+    protected function registerFunctions($rootPath, $path = 'helpers.php')
     {
-        $path = $path ? $path : 'helpers.php';
         require_once($this->getSrcPath($rootPath) . $path);
     }
 
     /**
      * @param $rootPath
-     * @param string $name
-     * @return string
+     * @param string $path
      */
-    protected function getConstantsPath($rootPath, $name = '')
+    protected function registerConstants($rootPath, $path = 'constants.php')
     {
-        $rootPath = $this->getPackagePath($rootPath) . 'config' . DIRECTORY_SEPARATOR;
-        $rootPath .= $name ? $name : 'constants.php';
-        return $rootPath;
-    }
-
-    /**
-     * @param $rootPath
-     * @param string $name
-     * @return string
-     */
-    protected function getFunctionsPath($rootPath, $name = '')
-    {
-        $rootPath = $this->getPackagePath($rootPath) . 'config' . DIRECTORY_SEPARATOR;
-        $rootPath .= $name ? $name : 'functions.php';
-        return $rootPath;
+        require_once($this->getSrcPath($rootPath) . $path);
     }
 
     /**
@@ -191,12 +175,11 @@ class LaraServiceProvider extends ServiceProvider
 
     /**
      * @param $rootPath
-     * @param $view
+     * @param string $view
      * @return string
      */
-    protected function getViewPath($rootPath, $view = '')
+    protected function getViewPath($rootPath, $view = 'views')
     {
-        $view = $view ? $view : 'views';
         return $this->getResourcePath($rootPath). $view;
     }
 
@@ -204,7 +187,7 @@ class LaraServiceProvider extends ServiceProvider
      * @param $path
      * @return string
      */
-    protected function getVendorViewPath($path)
+    protected function getViewVendorPath($path)
     {
         return resource_path('views' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $path);
     }
@@ -240,7 +223,7 @@ class LaraServiceProvider extends ServiceProvider
 
     /**
      * @param $rootPath
-     * @return bool|string
+     * @return string
      */
     protected function getSrcPath($rootPath)
     {
@@ -252,9 +235,8 @@ class LaraServiceProvider extends ServiceProvider
      * @param string $path
      * @return string
      */
-    protected function getRoutePath($rootPath, $path = '')
+    protected function getRoutePath($rootPath, $path = 'routes.php')
     {
-        $path = $path ? $path : 'routes.php';
         return $this->getSrcPath($rootPath) . $path;
     }
 }

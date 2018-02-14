@@ -3,7 +3,29 @@
 Have useful classes  
 
 # LaraServiceProvider
-mergeConfig
+    
+    mergeConfig($rootPath, $config = '', $isPublish = true)
+    loadViews($rootPath, $path = '', $isPublish = true)
+    loadRoutes ($rootPath, $path = '')
+    runningInConsole($commands)
+    
+    registerFunctions($rootPath, $path = 'helpers.php')
+    registerConstants($rootPath, $path = 'constants.php')
+    registerSingleton($singleton, $class)
+    registerSingletons($singletons)
+    registerMiddleware($middleware)
+    registerProviders($providers)
+    registerAlias($alias, $class)
+    registerAliases($aliases)
+    
+    getPackage($rootPath)
+    getPackagePath($rootPath)
+    getSrcPath($rootPath)
+    getConfigPath($rootPath)
+    getResourcePath($rootPath)
+    getViewVendorPath($path)
+    getViewPath($rootPath, $view = 'views')
+    getRoutePath($rootPath, $path = 'routes.php')
 # Str
     positions($string, $search)
     
