@@ -60,7 +60,7 @@ class LaraServiceProvider extends ServiceProvider
      */
     protected function runningInConsole($commands)
     {
-        if (is_array($commands)) {
+        if (!is_array($commands)) {
             $commands = [$commands];
         }
 
