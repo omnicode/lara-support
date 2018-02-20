@@ -40,7 +40,7 @@ class LaraServiceProvider extends ServiceProvider
         if ($isPublish) {
             $viewVendorPath = $this->getViewVendorPath($path);
             $this->publishes([
-                $path => $viewVendorPath,
+                $viewPath => $viewVendorPath,
             ]);
         }
     }
