@@ -28,7 +28,6 @@ class Str extends BaseStr
         return static::_position($string, $search, true);
     }
 
-
     /**
      * @param $subject
      * @param $search
@@ -47,7 +46,6 @@ class Str extends BaseStr
         if ($occurrence == self::LAST) {
             $occurrence = getLastKey($positions);
         }
-
 
         if (empty($positions[$occurrence])) {
             return false;
@@ -107,12 +105,28 @@ class Str extends BaseStr
         return substr($subject, $posStart, $posEnd - $posStart);
     }
 
-    public static function wrap($string, $search, $left = '', $right = '')
+    /**
+     * @param $string
+     * @param $search
+     * @param string $left
+     * @param string $right
+     * @param int $occurence
+     * @return mixed
+     */
+    public static function wrap($string, $search, $left = '', $right = '', $occurence = 1)
     {
         return str_replace($search , $left . $search . $right , $string);
     }
 
-    public static function iwrap($string, $search, $left = '', $right = '')
+    /**
+     * @param $string
+     * @param $search
+     * @param string $left
+     * @param string $right
+     * @param int $occurence
+     * @return mixed
+     */
+    public static function iwrap($string, $search, $left = '', $right = '', $occurence = 1)
     {
         $positions = self::ipositions($string, $search);
 
@@ -122,16 +136,15 @@ class Str extends BaseStr
 
         $length = strlen($search);
         $positions = array_reverse($positions);
+
         foreach ($positions as $position) {
             $actual = substr($string, $position, $length);
             $actual = $left . $actual . $right;
             $string = substr_replace($string, $actual,  $position, $length);
-            echo($string);
-            echo PHP_EOL;
         }
+
         return $string;
     }
-
 
     /**
      * @param $string
@@ -141,7 +154,6 @@ class Str extends BaseStr
      */
     protected static function _position($string, $search, $caseSensitive = false)
     {
-
         $lastPos = 0;
         $positions = [];
         $length = strlen($search);
@@ -155,5 +167,4 @@ class Str extends BaseStr
 
         return $positions;
     }
-
 }

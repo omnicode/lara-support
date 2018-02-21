@@ -4,7 +4,7 @@ namespace LaraSupport\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Str extends Facade
+class LaraPassword extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class Str extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'lara-str';
+        return 'lara-password';
     }
 }
