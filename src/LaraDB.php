@@ -37,7 +37,8 @@ class LaraDB
                 'is_nullable' => $column->Null ? true : false,
                 'default' => $column->Default,
                 'extra' => $column->Extra,
-                'additional' => Str::after($column->Type, ')') ? Str::after($column->Type, ')') : null
+                'unsigned' => str_contains($column->Type, 'unsigned') ? true : false,
+                'full_info' => $column->Type,
             ];
             if (Str::between($column->Type, '(', ')') != $column->Type) {
                 $columnsInfo[$column->Field]['length'] = Str::between($column->Type, '(', ')');
@@ -45,6 +46,34 @@ class LaraDB
         }
 
         return $columnsInfo;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDBStructure()
+    {
+        $query = sprintf("SELECT * FROM information_schema.columns WHERE table_schema ='%s'", env('DB_DATABASE'));
+        $dbStructures = DB::select($query);
+        $tables = [];
+
+        foreach ($dbStructures as $dbStructure) {
+            if ($dbStructure->DATA_TYPE == 'int') {
+            }
+            $tables[$dbStructure->TABLE_NAME][$dbStructure->COLUMN_NAME] = [
+                'type' => $dbStructure->DATA_TYPE,
+                'is_nullable' => $dbStructure->IS_NULLABLE == 'YES' ? true : false,
+                'default' => $dbStructure->COLUMN_DEFAULT,
+                'extra' => $dbStructure->EXTRA,
+                'unsigned' => str_contains($dbStructure->COLUMN_TYPE, 'unsigned') ? true : false,
+                'column_type' => $dbStructure->COLUMN_TYPE,
+            ];
+            if ($dbStructure->CHARACTER_MAXIMUM_LENGTH) {
+                $tables[$dbStructure->TABLE_NAME][$dbStructure->COLUMN_NAME]['length'] = $dbStructure->CHARACTER_MAXIMUM_LENGTH;
+            }
+        }
+
+        return $tables;
     }
 
 }
