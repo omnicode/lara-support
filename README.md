@@ -5,10 +5,10 @@
 <a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/license.svg" alt="License"></a>
 </p>
 
-# lara-Support
+# Lara-Support
 
+Useful classes/methods  
 
-Have useful classes  
 
 # LaraServiceProvider
     
@@ -34,16 +34,21 @@ Have useful classes
     getViewVendorPath($path)
     getViewPath($rootPath, $view = 'views')
     getRoutePath($rootPath, $path = 'routes.php')
+    
+    
 # Str
     positions($string, $search)
     
-        search occourence
+        finds the given string's position in the text
         return empty array or associative array
             [
                 occurence => position
             ]
         example 
+        
+        
         Str::positions('I love php, I love php too!','php')
+        
         returns
             [
               1 => 7
@@ -51,10 +56,11 @@ Have useful classes
             ]
         Str::positions('I love php, I love php too!','Php')
         return []
+       
             
     ipositions($string, $search)
         
-        search case-insesitive simialar positions
+        case-insesitive versino for positions
 
         Str::ipositions('I love php, I love php too!','php')
             returns
@@ -102,11 +108,12 @@ Have useful classes
     between
     wrap
     iwrap
+    
 # DB
     getTable
         return all db tables list
     
-    getColumnsFullInfo
+    getColumnsFullInfo*
         return list
             [
                 coulumn => [
@@ -119,3 +126,5 @@ Have useful classes
                 ]
             ]
             
+        *example is for mysql DB
+        
