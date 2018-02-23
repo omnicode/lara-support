@@ -39,23 +39,23 @@ class LaraDBTest extends TestCase
         $this->assertFalse($this->laraDb->hasTable('_table_'));
     }
 
-    /**
-     *
-     */
-    public function testHasTableMinutesIsNotFalse()
-    {
-        Config::set('lara_support.cache.time', 12);
-        $this->assertFalse($this->laraDb->hasTable('_table_'));
-    }
+//     /**
+//      *
+//      */
+//     public function testHasTableMinutesIsNotFalse()
+//     {
+//         Config::set('lara_support.cache.time', 12);
+//         $this->assertFalse($this->laraDb->hasTable('_table_'));
+//     }
 
-    /**
-     *
-     */
-    public function testHasColumnMinutesIsFalse()
-    {
-        Config::set('lara_support.cache.time', false);
-        $this->assertFalse($this->laraDb->hasColumn('_table_', '_column_'));
-    }
+//     /**
+//      *
+//      */
+//     public function testHasColumnMinutesIsFalse()
+//     {
+//         Config::set('lara_support.cache.time', false);
+//         $this->assertFalse($this->laraDb->hasColumn('_table_', '_column_'));
+//     }
 
     /**
      *
