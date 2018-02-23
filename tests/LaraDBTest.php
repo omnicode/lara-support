@@ -33,11 +33,11 @@ class LaraDBTest extends TestCase
         $this->laraDb = new LaraDB($this->connection);
     }
 
-    public function testHasTableMinutesIsFalse()
-    {
-        Config::set('lara_support.cache.time', false);
-        $this->assertFalse($this->laraDb->hasTable('_table_'));
-    }
+//     public function testHasTableMinutesIsFalse()
+//     {
+//         Config::set('lara_support.cache.time', false);
+//         $this->assertFalse($this->laraDb->hasTable('_table_'));
+//     }
 
 //     /**
 //      *
