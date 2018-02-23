@@ -29,6 +29,7 @@ class LaraDBTest extends TestCase
     {
         parent::setUp();
 //         $this->connection = $this->getMockObjectWithMockedMethods(['select'], Connection::class, ['pdo']);
+        $this->connection = app(Connection::class);
         $this->laraDb = new LaraDB($this->connection);
     }
 
