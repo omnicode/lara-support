@@ -28,7 +28,7 @@ class LaraDBTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->connection = $this->getMockObjectWithMockedMethods(['select'], Connection::class, ['pdo']);
+//         $this->connection = $this->getMockObjectWithMockedMethods(['select'], Connection::class, ['pdo']);
         $this->laraDb = new LaraDB($this->connection);
     }
 
@@ -110,68 +110,68 @@ class LaraDBTest extends TestCase
     }
 
 
-    /**
-     *
-     */
-    public function testGetTables()
-    {
-        $stdClass = new \stdClass();
-        $prop = 'Tables_in_' . env('DB_DATABASE');
-        $table = 'table';
-        $stdClass->{$prop} = $table;
+//     /**
+//      *
+//      */
+//     public function testGetTables()
+//     {
+//         $stdClass = new \stdClass();
+//         $prop = 'Tables_in_' . env('DB_DATABASE');
+//         $table = 'table';
+//         $stdClass->{$prop} = $table;
 
-        $collection = [
-            $stdClass
-        ];
+//         $collection = [
+//             $stdClass
+//         ];
 
-        $this->methodWillReturn($this->connection, 'select', $collection, 'SHOW TABLES');
-        $this->assertEquals([$table], $this->laraDb->getTables());
-    }
+//         $this->methodWillReturn($this->connection, 'select', $collection, 'SHOW TABLES');
+//         $this->assertEquals([$table], $this->laraDb->getTables());
+//     }
 
-    /**
-     *
-     */
-    public function testGetColumnsFullInfo()
-    {
-        $table = 'table';
-        $query = 'show columns from ' . $table;
+//     /**
+//      *
+//      */
+//     public function testGetColumnsFullInfo()
+//     {
+//         $table = 'table';
+//         $query = 'show columns from ' . $table;
 
-        $stdClass = new \stdClass();
-        $stdClass->Field = 'column';
-        $stdClass->Type = 'varchar(100)';
-        $stdClass->Null = 'NO';
-        $stdClass->Key =  45 ;
-        $stdClass->Default = null;
-        $stdClass->Extra = '';
+//         $stdClass = new \stdClass();
+//         $stdClass->Field = 'column';
+//         $stdClass->Type = 'varchar(100)';
+//         $stdClass->Null = 'NO';
+//         $stdClass->Key =  45 ;
+//         $stdClass->Default = null;
+//         $stdClass->Extra = '';
 
-        $collection = [
-            $stdClass
-        ];
+//         $collection = [
+//             $stdClass
+//         ];
 
-        $expected = [
-            'column' => [
-                'type' => 'varchar',
-                'key' => 45,
-                'is_nullable' => false,
-                'default' => null,
-                'extra' => '',
-                'unsigned' => false,
-                'full_info' => 'varchar(100)',
-                'length' => '100',
-          ]
-        ];
+//         $expected = [
+//             'column' => [
+//                 'type' => 'varchar',
+//                 'key' => 45,
+//                 'is_nullable' => false,
+//                 'default' => null,
+//                 'extra' => '',
+//                 'unsigned' => false,
+//                 'full_info' => 'varchar(100)',
+//                 'length' => '100',
+//           ]
+//         ];
 
-        $this->methodWillReturn($this->connection, 'select', $collection, $query);
-        $this->assertEquals($expected, $this->laraDb->getColumnsFullInfo($table));
-    }
+//         $this->methodWillReturn($this->connection, 'select', $collection, $query);
+//         $this->assertEquals($expected, $this->laraDb->getColumnsFullInfo($table));
+//     }
 
-    /**
-     *
-     */
-    public function testGetDBStructure()
-    {
-        // TODO
-        $this->assertTrue(true);
-    }
+//     /**
+//      *
+//      */
+//     public function testGetDBStructure()
+//     {
+//         // TODO
+//         $this->assertTrue(true);
+//     }
 
 }
