@@ -9,11 +9,15 @@
 		}
 	],
 	"require": {
-		"laravel/framework": "5.3.* || 5.4.* || 5.5.*"
+		"laravel/framework": "5.5.*",
+		"omnicode/php-util": "0.0.*"
 	},
 	"require-dev": {
-		"mockery/mockery": "~0.9",
-		"phpunit/phpunit": "~4.0|~5.0"
+		"mockery/mockery": "~1.0",
+		"phpunit/phpunit": "~6.0",
+		"omnicode/lara-test": "~0.0",
+		"orchestra/testbench": "~3.0"
+
 	},
 	"autoload": {
 		"psr-4": {

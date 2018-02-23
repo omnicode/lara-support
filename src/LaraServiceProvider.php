@@ -54,7 +54,6 @@ class LaraServiceProvider extends ServiceProvider
         $this->loadRoutesFrom($this->getRoutePath($rootPath, $path));
     }
 
-
     /**
      * @param $commands
      */
