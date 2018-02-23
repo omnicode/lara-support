@@ -1,8 +1,8 @@
 <p align="center">
-<a href="https://travis-ci.org/omnicode/lara-suppport"><img src="https://travis-ci.org/omnicode/lara-suppport.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/omnicode/lara-suppport"><img src="https://poser.pugx.org/omnicode/lara-suppport/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/omnicode/lara-suppport"><img src="https://poser.pugx.org/omnicode/lara-suppport/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/omnicode/lara-suppport"><img src="https://poser.pugx.org/omnicode/lara-suppport/license.svg" alt="License"></a>
+<a href="https://travis-ci.org/omnicode/lara-support"><img src="https://travis-ci.org/omnicode/lara-support.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/license.svg" alt="License"></a>
 </p>
 
 # lara-Support
