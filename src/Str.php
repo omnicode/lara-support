@@ -3,6 +3,7 @@
 namespace LaraSupport;
 
 use Illuminate\Support\Str as BaseStr;
+use function PhpUtil\get_last_key;
 
 class Str extends BaseStr
 {
