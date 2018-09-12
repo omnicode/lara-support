@@ -44,7 +44,7 @@ class Str extends BaseStr
         $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
 
         if ($occurrence == self::LAST) {
-            $occurrence = getLastKey($positions);
+            $occurrence = get_last_key($positions);
         }
 
         if (empty($positions[$occurrence])) {
@@ -70,7 +70,7 @@ class Str extends BaseStr
         $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
 
         if ($occurrence == self::LAST) {
-            $occurrence = getLastKey($positions);
+            $occurrence = get_last_key($positions);
         }
 
         if (empty($positions[$occurrence])) {
