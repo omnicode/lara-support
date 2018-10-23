@@ -15,7 +15,7 @@
 	"require-dev": {
 		"mockery/mockery": "~1.0",
 		"phpunit/phpunit": "~6.0",
-		"omnicode/lara-test": "~2.1",
+		"omnicode/lara-test": "~3.1",
 		"orchestra/testbench": "~3.0"
 
 	},
