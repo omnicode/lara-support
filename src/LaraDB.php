@@ -137,6 +137,7 @@ class LaraDB
      */
     public function getColumnsFullInfo($table)
     {
+//        $query = 'show full columns from ' . $table;
         $query = 'show columns from ' . $table;
         $columns = $this->connection->select($query);
         $columnsInfo = [];
@@ -164,6 +165,10 @@ class LaraDB
      */
     public function getDBStructure()
     {
+//        SELECT *
+//        FROM INFORMATION_SCHEMA.COLUMNS
+//WHERE table_name = 'Address'
+
         $query = sprintf("SELECT * FROM information_schema.columns WHERE table_schema ='%s'", env('DB_DATABASE'));
         $dbStructures = $this->connection->select($query);
         $tables = [];
@@ -178,6 +183,8 @@ class LaraDB
                 'extra' => $dbStructure->EXTRA,
                 'unsigned' => str_contains($dbStructure->COLUMN_TYPE, 'unsigned') ? true : false,
                 'column_type' => $dbStructure->COLUMN_TYPE,
+                'comment' => $dbStructure->COLUMN_COMMENT,
+                'key' => $dbStructure->COLUMN_KEY,
             ];
             if ($dbStructure->CHARACTER_MAXIMUM_LENGTH) {
                 $tables[$dbStructure->TABLE_NAME][$dbStructure->COLUMN_NAME]['length'] = $dbStructure->CHARACTER_MAXIMUM_LENGTH;
