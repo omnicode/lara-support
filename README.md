@@ -1,14 +1,6 @@
-<p align="center">
-<a href="https://travis-ci.org/omnicode/lara-support"><img src="https://travis-ci.org/omnicode/lara-support.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/omnicode/lara-support"><img src="https://poser.pugx.org/omnicode/lara-support/license.svg" alt="License"></a>
-</p>
+# lara-Support
 
-# Lara-Support
-
-Useful classes/methods  
-
+Have useful classes  
 
 # LaraServiceProvider
     
@@ -34,21 +26,16 @@ Useful classes/methods
     getViewVendorPath($path)
     getViewPath($rootPath, $view = 'views')
     getRoutePath($rootPath, $path = 'routes.php')
-    
-    
 # Str
     positions($string, $search)
     
-        finds the given string's position in the text
+        search occourence
         return empty array or associative array
             [
                 occurence => position
             ]
         example 
-        
-        
         Str::positions('I love php, I love php too!','php')
-        
         returns
             [
               1 => 7
@@ -56,11 +43,10 @@ Useful classes/methods
             ]
         Str::positions('I love php, I love php too!','Php')
         return []
-       
             
     ipositions($string, $search)
         
-        case-insesitive versino for positions
+        search case-insesitive simialar positions
 
         Str::ipositions('I love php, I love php too!','php')
             returns
@@ -108,12 +94,11 @@ Useful classes/methods
     between
     wrap
     iwrap
-    
 # DB
     getTable
         return all db tables list
     
-    getColumnsFullInfo*
+    getColumnsFullInfo
         return list
             [
                 coulumn => [
@@ -126,5 +111,3 @@ Useful classes/methods
                 ]
             ]
             
-        *example is for mysql DB
-        

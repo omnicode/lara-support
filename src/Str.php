@@ -11,21 +11,23 @@ class Str extends BaseStr
     /**
      * @param $string
      * @param $search
+     * @param bool $caseSensitive
      * @return array
      */
-    public static function positions($string, $search)
+    public static function positions($string, $search, $caseSensitive = false)
     {
-        return static::_position($string, $search);
-    }
+        $lastPos = 0;
+        $positions = [];
+        $length = strlen($search);
+        $number = 1;
+        $method = $caseSensitive ? 'stripos' : 'strpos';
 
-    /**
-     * @param $string
-     * @param $search
-     * @return array
-     */
-    public static function ipositions($string, $search)
-    {
-        return static::_position($string, $search, true);
+        while (($lastPos = $method($string, $search, $lastPos))!== false) {
+            $positions[$number++] = $lastPos;
+            $lastPos = $lastPos + $length;
+        }
+
+        return $positions;
     }
 
     /**
@@ -41,10 +43,10 @@ class Str extends BaseStr
             return $subject;
         }
 
-        $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
+        $positions = static::positions($subject, $search, $caseSensitive);
 
         if ($occurrence == self::LAST) {
-            $occurrence = getLastKey($positions);
+            $occurrence = Arr::lastKey($positions);
         }
 
         if (empty($positions[$occurrence])) {
@@ -67,10 +69,10 @@ class Str extends BaseStr
             return $subject;
         }
 
-        $positions = $caseSensitive ? static::positions($subject, $search) : static::ipositions($subject, $search);
+        $positions = static::positions($subject, $search, $caseSensitive);
 
         if ($occurrence == self::LAST) {
-            $occurrence = getLastKey($positions);
+            $occurrence = Arr::lastKey($positions);
         }
 
         if (empty($positions[$occurrence])) {
@@ -88,7 +90,7 @@ class Str extends BaseStr
      * @param string $occurenceEnd
      * @return bool|string
      */
-    public static function between($subject, $searchStart, $searchEnd, $occurentceStart = 1, $occurenceEnd = self::LAST)
+    public static function between($subject, $searchStart, $searchEnd, $occurentceStart = 1, $occurenceEnd = self::LAST, $caseSensitive = false)
     {
         if ($searchStart == '' || $searchEnd == '') {
             return $subject;
@@ -111,24 +113,16 @@ class Str extends BaseStr
      * @param string $left
      * @param string $right
      * @param int $occurence
+     * @param bool $caseSensitive
      * @return mixed
      */
-    public static function wrap($string, $search, $left = '', $right = '', $occurence = 1)
+    public static function wrap($string, $search, $left = '', $right = '', $occurence = 1, $caseSensitive = false)
     {
-        return str_replace($search , $left . $search . $right , $string);
-    }
+        if (!$caseSensitive) {
+            return str_replace($search , $left . $search . $right , $string);
+        }
 
-    /**
-     * @param $string
-     * @param $search
-     * @param string $left
-     * @param string $right
-     * @param int $occurence
-     * @return mixed
-     */
-    public static function iwrap($string, $search, $left = '', $right = '', $occurence = 1)
-    {
-        $positions = self::ipositions($string, $search);
+        $positions = self::positions($string, $search, $caseSensitive);
 
         if (empty($positions)) {
             return $string;
@@ -147,24 +141,127 @@ class Str extends BaseStr
     }
 
     /**
-     * @param $string
-     * @param $search
-     * @param bool $caseSensitive
-     * @return array
+     * @param $text
+     * @param bool $double
+     * @param null $charset
+     * @return array|string
      */
-    protected static function _position($string, $search, $caseSensitive = false)
+    public static function h($text, $double = true, $charset = null)
     {
-        $lastPos = 0;
-        $positions = [];
-        $length = strlen($search);
-        $number = 1;
-        $method = $caseSensitive ? 'stripos' : 'strpos';
-
-        while (($lastPos = $method($string, $search, $lastPos))!== false) {
-            $positions[$number++] = $lastPos;
-            $lastPos = $lastPos + $length;
+        if (is_string($text)) {
+            //optimize for strings
+        } elseif (is_array($text)) {
+            $texts = [];
+            foreach ($text as $k => $t) {
+                $texts[$k] = h($t, $double, $charset);
+            }
+            return $texts;
+        } elseif (is_object($text)) {
+            if (method_exists($text, '__toString')) {
+                $text = (string)$text;
+            } else {
+                $text = '(object)' . get_class($text);
+            }
+        } elseif (is_bool($text)) {
+            return $text;
         }
 
-        return $positions;
+        static $defaultCharset = false;
+
+        if ($defaultCharset === false) {
+            $defaultCharset = mb_internal_encoding();
+            if ($defaultCharset === null) {
+                $defaultCharset = 'UTF-8';
+            }
+        }
+
+        if (is_string($double)) {
+            $charset = $double;
+        }
+
+        return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, ($charset) ? $charset : $defaultCharset, $double);
+    }
+
+    /**
+     * returns given amount of characters counting backwards
+     *
+     * @param string $str
+     * @param int $count
+     * @return string
+     */
+    public static function lastChars($str, $count = 1)
+    {
+        return mb_substr($str, -$count, $count);
+    }
+
+    /**
+     * create slug from string
+     *
+     * @param string $str
+     * @param string $symbol
+     * @return string - e.g. in word1-word2-word3 format
+     */
+    public static function createSlug($str = "", $symbol = "-")
+    {
+        // if not english
+        $regex = '/^[ -~]+$/';
+        if (!preg_match($regex, $str)) {
+            $str = transliterator_transliterate('Any-Latin;Latin-ASCII;', $str);
+        }
+
+        $str = mb_strtolower($str);
+        $str = str_replace("'", "", $str);
+        $str = str_replace('"', "", $str);
+        $str = str_replace(".", $symbol, $str);
+        $str = str_replace("\\", $symbol, $str);
+        $str = str_replace("/", $symbol, $str);
+        $str = preg_replace("/[~\:;\,\?\s\(\)\'\"\[\]\{\}#@&%\$\!\^\+\*=\!\<\>\|?`]/", $symbol, trim($str));
+
+        // everything but letters and numbers
+        $str = preg_replace('/(.)\\1{2,}/', '$1', $str);
+
+        // letters replace only with 2+ repetition
+        $str = preg_replace("/[-]{2,}/", $symbol, $str);
+        $str = rtrim($str, $symbol);
+
+        return mb_strtolower($str);
+    }
+
+    /**
+     * @param $val
+     * @return string
+     */
+    public static function _humanize($val)
+    {
+        $val = str_replace("_", "", $val);
+        $matches = preg_split('/(?=[A-Z])/', $val);
+        return trim(implode(" ", $matches));
+    }
+
+    /**
+     * returns the short string based on $length if string's length is more than $length
+     *
+     * @param string $str
+     * @param number $length
+     * @param bool $raw
+     * @return string
+     */
+    public static function shorten($str = '', $length = null, $raw = false)
+    {
+        if ($length === null) {
+            $length = defined('_PHP_UTIL_SHORTEN_LENGTH') ? _PHP_UTIL_SHORTEN_LENGTH : 50;
+        }
+
+        if (mb_strlen($str) > $length) {
+            $shortStr = mb_substr($str, 0, $length) . "...";
+
+            if ($raw) {
+                return h($shortStr);
+            }
+        } else {
+            return h($str);
+        }
+
+        return '<span title="' . h(str_ireplace("/", "", $str)) . '">' . h($shortStr) . '</span>';
     }
 }
