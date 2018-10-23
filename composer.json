@@ -10,12 +10,11 @@
 	],
 	"require": {
 		"laravel/framework": "5.5.*",
-		"omnicode/php-util": "0.0.*"
+		"omnicode/php-util": "0.1.*"
 	},
 	"require-dev": {
 		"mockery/mockery": "~1.0",
 		"phpunit/phpunit": "~6.0",
-		"omnicode/lara-test": "~3.1",
 		"orchestra/testbench": "~3.0"
 
 	},
