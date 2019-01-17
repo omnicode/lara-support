@@ -21,12 +21,6 @@ class LaraSupportServiceProvider extends LaraServiceProvider
      */
     public function register()
     {
-        $this->registerAliases(
-            [
-                'LaraDB' => \LaraSupport\Facades\LaraDB::class,
-                'LaraPassword' => \LaraSupport\Facades\LaraPassword::class,
-            ]
-        );
         $this->registerSingletons([
             'lara-db' => LaraDB::class,
             'lara-password' => LaraPassword::class,
